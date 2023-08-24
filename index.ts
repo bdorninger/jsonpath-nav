@@ -16,6 +16,7 @@ areas[?(@.id=='home-screen')].childGroups[?(@.id=='VIEW_EngelTasks')].childGroup
 */
 
 const paths = [
+  `*[?(@.id=='home-screen')].*[?(@.id=='VIEW_GLOBAL')].*[?(@.id=='TASK_AllProductionRelevant')].links`,
   `areas[?(@.id=='home-screen')].childGroups[?(@.id=='VIEW_GLOBAL')].childGroups[?(@.id=='TASK_AllProductionRelevant')].links`,
   `areas[?(@.id=='home-screen')].childGroups[?(@.id=='VIEW_EngelFunctions')].childGroups[?(@.id=='FUNCTION_Demolding')].links`,
   `areas[?(@.id=='home-screen')].childGroups[?(@.id=='VIEW_EngelTasks')].childGroups[?(@.id=='TASK_MoldChange')].links`,
@@ -23,7 +24,7 @@ const paths = [
   `areas[?(@.id=='home-screen')].childGroups[?(@.id=='VIEW_EngelTasks')].childGroups[?(@.id=='TASK_ProcessOptimizing')].links`,
 ];
 
-paths.forEach((p) => {
+paths.forEach((p, i) => {
   const result = JSONPath({
     json: JSON.parse(navDataWithoutEjectorJSON),
     path: p,
@@ -32,5 +33,5 @@ paths.forEach((p) => {
     },
   });
 
-  console.log('Result: ', result);
+  console.log(`Result: ${i}`, result);
 });
