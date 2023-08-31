@@ -26,6 +26,7 @@ export const navDataEjectorJSON = `
 
 export const navDataWithoutEjectorJSON = `
 {
+  "id": "root",
   "routes": [
     {
       "id": "sequence",
