@@ -79,7 +79,8 @@ const myobj = {
 const rootObj = {
   children: [myobj],
 };
-// ensureDescendantObj(rootObj, '1/11/111', 'id', 'children');
+let ensured;
+ensured = ensureDescendantObj(rootObj, '1/11/111', 'id', 'children');
 
 const someother = {
   id: 'a',
@@ -95,7 +96,9 @@ const somOtherRoot = {
   theChild: someother,
 };
 
-ensureDescendantObj(somOtherRoot, 'a/b/c/d/e', 'id', 'theChild', false);
+//ensured = ensureDescendantObj(somOtherRoot, 'a/b/c/d/e', 'id', 'theChild', false);
+
+console.log('ENSURED', JSON.stringify(ensured, undefined, 3));
 
 function queryPaths() {
   const jsonObject = JSON.parse(navDataWithoutEjectorJSON);
@@ -196,8 +199,10 @@ function ensureDescendantObj(
       current
     );
     const qResults: unknown[] = jp.evaluate(
-      `$.${aspect}[?(@property === '${pathProperty}' && @ === '${tok}')]^`,
-      //`$.${aspect}[?(@.${pathProperty} === '${tok}')]`, // use escape/quote mechanisme to allow nums...
+      aspectIsArray
+        ? `$.${aspect}[?(@.${pathProperty} === '${tok}')]` // works well with array structs like our view models
+        : `$.${aspect}[?(@property === '${pathProperty}' && @ === '${tok}')]^`, // works with plain object based nesting
+      // `$.${aspect}[?(@.${pathProperty} === '${tok}')]`, // use escape/quote mechanisme to allow nums...
       // `$.${aspect}[?(@property === '${pathProperty}' && @ === '${tok}')]^`, // use escape/quote mechanisme to allow nums...
       current,
       (found, type, full) => {
@@ -250,4 +255,5 @@ function ensureDescendantObj(
   const text = JSON.stringify(obj, undefined, 2);
   console.log(`completed obj`, text);
   ta.value = text;
+  return current;
 }
